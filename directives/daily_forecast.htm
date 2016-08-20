@@ -1,0 +1,13 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">
+      <img alt="{{ day.weather[0].description }}" src="{{ '//openweathermap.org/img/w/' + day.weather[0].icon + '.png' }}" />
+      <strong>{{ convertDate({ms: day.dt}) | date: dateFormat }}</strong>
+    </h3>
+  </div>
+  <div class="panel-body">
+    Daytime Temperature: {{ convertTemp({temp: day.temp.day}) }}<br />
+    High/Low: {{ convertTemp({temp: day.temp.max}) + '/' + convertTemp({temp: day.temp.min}) }}<br />
+    Description: {{ day.weather[0].description }}
+  </div>
+</div>

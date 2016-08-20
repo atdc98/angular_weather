@@ -1,0 +1,17 @@
+<p><a href="#/">Back to Search</a></p>
+Forecast for {{ location }}
+<hr />
+<div>
+  Forecast Days: <a href="#/forecast/2" ng-class="{ 'bg-primary': num_days === '2' }">2</a> | 
+  <a href="#/forecast/5" ng-class="{ 'bg-primary': num_days === '5' }">5</a> | 
+  <a href="#/forecast/7" ng-class="{ 'bg-primary': num_days === '7' }">7</a> | 
+  <a href="#/forecast/10" ng-class="{ 'bg-primary': num_days === '10' }">10</a> 
+</div>
+<hr />
+<div ng-repeat="result in openWeatherResult.list">
+  <div class="row">
+    <div class="col-md-12">
+      <daily-forecast day="result" convert-temp="convertToFahrenheit(temp)" convert-date="timeConvert(ms)" date-format="EEEE, MMM d, y"></daily-forecast>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,21 @@
+<p><a href="#/">Back to Search</a></p>
+Forecast for {{ location }}
+
+<div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">
+            <img alt="{{ openWeatherResult.weather[0].description }}" src="{{ '//openweathermap.org/img/w/' + openWeatherResult.weather[0].icon + '.png' }}" />
+            <strong>{{ timeConvert(openWeatherResult.dt) | date:'EEEE, MMM d, y' }}</strong>
+          </h3>
+        </div>
+        <div class="panel-body">
+          Daytime Temperature: {{ convertToFahrenheit(openWeatherResult.main.temp) }}<br />
+          Description: {{ openWeatherResult.weather[0].description }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
