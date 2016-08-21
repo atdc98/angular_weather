@@ -1,13 +1,20 @@
 // CONTROLLERS
-forecastApp.controller('mainCtrl', ['$scope', 'locService', function ($scope, locService) {
+forecastApp.controller('mainCtrl', ['$scope', '$location', 'locService', function ($scope, $location, locService) {
+  
   $scope.location = locService.location;
+  
   $scope.$watch('location', function() {
     locService.location = $scope.location;
   });
+  
+  $scope.getForecast = function () {
+    $location.path("/forecast");
+  };
+  
 }]);
 
 
-forecastApp.controller('forecastCtrl', ['$scope', '$resource', '$routeParams', 'locService', 'conversionService', function ($scope, $resource, $routeParams, locService, conversionService) {
+forecastApp.controller('forecastCtrl', ['$scope', '$routeParams', 'locService', 'conversionService', 'apiService', function ($scope, $routeParams, locService, conversionService, apiService) {
   
   $scope.location = locService.location;
   $scope.country = locService.country;
@@ -23,20 +30,19 @@ forecastApp.controller('forecastCtrl', ['$scope', '$resource', '$routeParams', '
     return conversionService.toDate(ms);
   }
   
-  $scope.openWeatherAPI = $resource(config.APIURL_FORECAST, { callback: "JSON_CALLBACK" }, { get: { method: "JSONP" }});
-  
-  $scope.openWeatherResult = $scope.openWeatherAPI.get({
+  var search_object = {
     APPID: config.APIKEY,
     q: $scope.location + ',' + $scope.country,
     units: config.UNITS,
     mode: config.DATAMODE,
     cnt: config.DAYCOUNT
-  });
-console.log($scope.openWeatherResult);
+  };
+  $scope.openWeatherResult = apiService.getWeather(config.APIURL_FORECAST, search_object);
+
 }]);
 
 
-forecastApp.controller('currentCtrl', ['$scope', '$resource', '$routeParams', 'locService', 'conversionService', function ($scope, $resource, $routeParams, locService, conversionService) {
+forecastApp.controller('currentCtrl', ['$scope', '$routeParams', 'locService', 'conversionService', 'apiService', function ($scope, $routeParams, locService, conversionService, apiService) {
   
   $scope.location = locService.location;
   $scope.country = locService.country;
@@ -49,13 +55,12 @@ forecastApp.controller('currentCtrl', ['$scope', '$resource', '$routeParams', 'l
     return conversionService.toDate(ms);
   }
   
-  $scope.openWeatherAPI = $resource(config.APIURL_CURRENT, { callback: "JSON_CALLBACK" }, { get: { method: "JSONP" }});
-  
-  $scope.openWeatherResult = $scope.openWeatherAPI.get({
+  var search_object = {
     APPID: config.APIKEY,
     q: $scope.location + ',' + $scope.country,
     units: config.UNITS,
     mode: config.DATAMODE
-  });
-  
+  };
+  $scope.openWeatherResult = apiService.getWeather(config.APIURL_CURRENT, search_object);
+
 }]);
